@@ -1,0 +1,24 @@
+.formContainer {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.title {
+    font-size: 1.8rem;
+    color: #1B355E;
+    margin-bottom: 20px;
+}
+
+.toggleGroup {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.sections {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
