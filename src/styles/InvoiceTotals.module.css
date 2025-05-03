@@ -1,0 +1,48 @@
+.invoiceTotals {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    padding: 15px;
+    width: 100%; /* adapt width naturally */
+    max-width: 500px;
+    margin-top: 20px;
+    margin-left: auto; /* aligns it to the right */
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.totalsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.label {
+    background-color: #1B355E;
+    color: #ffffff;
+    padding: 8px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.value {
+    background-color: #f7f9fc;
+    padding: 8px;
+    text-align: right;
+    color: #213547;
+}
+
+.createOrderBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #42a5f5;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.createOrderBtn:hover {
+    background-color: #1e88e5;
+}

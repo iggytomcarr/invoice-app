@@ -5,7 +5,7 @@ import styles from '../styles/InvoiceForm.module.css';
 function InvoiceForm() {
     return (
         <div className={styles.formContainer}>
-            <h1 className={styles.title}>New Order</h1>
+            <h1 className={styles.title}>Create New Order</h1>
             <div className={styles.toggleGroup}>
                 <label>
                     <input type="radio" name="invoiceSetting" /> Quote

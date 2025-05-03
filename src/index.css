@@ -24,10 +24,13 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  min-width: 100vw;
   min-height: 100vh;
+  background-color: #f4f7fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #213547;
+  display: block;
 }
 
 h1 {
