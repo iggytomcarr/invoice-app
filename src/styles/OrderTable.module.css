@@ -1,4 +1,5 @@
 .orderTable {
+    position: relative; /* Important for absolute positioning */
     margin-top: 30px;
     background: white;
     padding: 15px;
@@ -24,4 +25,23 @@
 .table th {
     background-color: #1B355E;
     color: white;
+}
+
+
+.orderTable {
+    position: relative;
+    margin-top: 30px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* existing styles... */
+
+/* Specific positioning for your floating AddButton */
+.floatingButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }

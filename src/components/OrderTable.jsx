@@ -1,6 +1,9 @@
+import { Plus } from 'lucide-react';
 import styles from '../styles/OrderTable.module.css';
+import AddButton from './AddButton';
 
 function OrderTable() {
+    let handleAddLine;
     return (
         <div className={styles.orderTable}>
             <h2 className={styles.subtitle}>Order</h2>
@@ -30,6 +33,10 @@ function OrderTable() {
                 </tr>
                 </tbody>
             </table>
+
+            <AddButton className={styles.floatingButton} onClick={handleAddLine} />
+
+
         </div>
     );
 }
