@@ -1,0 +1,27 @@
+.button {
+    background-color: #42a5f5;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    background-color: #2196f3;
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}

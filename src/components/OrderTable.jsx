@@ -1,9 +1,16 @@
-import { Plus } from 'lucide-react';
+
 import styles from '../styles/OrderTable.module.css';
-import AddButton from './AddButton';
+import AddProductButton from './AddProductButton.jsx';
+// import products from '../example_data/products.js'
+
+
 
 function OrderTable() {
-    let handleAddLine;
+    const handleAddLine = () => {
+        console.log("Add line clicked!")
+    };
+
+
     return (
         <div className={styles.orderTable}>
             <h2 className={styles.subtitle}>Order</h2>
@@ -34,7 +41,7 @@ function OrderTable() {
                 </tbody>
             </table>
 
-            <AddButton className={styles.floatingButton} onClick={handleAddLine} />
+            <AddProductButton onClick={handleAddLine} />
 
 
         </div>
