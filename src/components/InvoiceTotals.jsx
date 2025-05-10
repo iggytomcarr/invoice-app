@@ -1,4 +1,5 @@
 import styles from '../styles/InvoiceTotals.module.css';
+import CreateOrderButton from "./CreateOrderButton.jsx";
 
 function InvoiceTotals() {
     return (
@@ -39,7 +40,7 @@ function InvoiceTotals() {
                 </tr>
                 </tbody>
             </table>
-            <button className={styles.createOrderBtn}>Create Order</button>
+            <CreateOrderButton />
         </div>
     );
 }
