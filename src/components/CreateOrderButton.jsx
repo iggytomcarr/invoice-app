@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from "../styles/DeliverySection.module.css";
 
 function createOrder() {
     console.log("Create order clicked!")
@@ -8,7 +9,7 @@ function createOrder() {
 
 const CreateOrderButton = () => {
     return (
-        <button onClick={createOrder}>Create Order</button>
+        <button className={styles.button} onClick={createOrder}>Create Order</button>
     )
 
 }

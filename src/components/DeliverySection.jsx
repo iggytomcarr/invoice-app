@@ -22,16 +22,6 @@ function DeliverySection({ delivery, setDelivery, onCopyFromCustomer }) {
             <table className={styles.table}>
                 <tbody>
                     <tr>
-                        <td className={styles.label}>Email Address</td>
-                        <td>
-                            <input 
-                                type="text" 
-                                value={delivery?.emailAddress || ''} 
-                                onChange={(e) => setDelivery({...delivery, emailAddress: e.target.value})}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
                         <td className={styles.label}>FirstName</td>
                         <td>
                             <input 

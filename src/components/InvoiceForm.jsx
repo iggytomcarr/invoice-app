@@ -8,11 +8,11 @@ function InvoiceForm() {
 
     const [customer, setCustomer] = useState({});
     const [delivery, setDelivery] = useState({});
+    const [invoiceSetting, setInvoiceSetting] = useState('quote');
 
     // Function to copy customer data to delivery
     const copyCustomerToDelivery = () => {
         setDelivery({
-            emailAddress: customer.emailAddress || '',
             firstName: customer.firstName || '',
             lastName: customer.lastName || '',
             business: customer.business || '',
@@ -30,10 +30,24 @@ function InvoiceForm() {
             <h1 className={styles.title}>Create New Order</h1>
             <div className={styles.toggleGroup}>
                 <label>
-                    <input type="radio" name="invoiceSetting" /> Quote
+                    <input
+                        type="radio"
+                        name="invoiceSetting"
+                        value="quote"
+                        checked={invoiceSetting === 'quote'}
+                        onChange={(e) => setInvoiceSetting(e.target.value)}
+                    />
+                    Quote
                 </label>
                 <label>
-                    <input type="radio" name="invoiceSetting" /> Invoice
+                    <input
+                        type="radio"
+                        name="invoiceSetting"
+                        value="invoice"
+                        checked={invoiceSetting === 'invoice'}
+                        onChange={(e) => setInvoiceSetting(e.target.value)}
+                    />
+                    Invoice
                 </label>
                 <label>
                     <input type="checkbox" /> VAT Applicable
