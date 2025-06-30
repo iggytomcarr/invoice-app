@@ -45,3 +45,17 @@
     bottom: 10px;
     right: 10px;
 }
+
+.highlightedRow {
+    background-color: #fff9c4; /* Washed out yellow */
+}
+
+.totalsRow {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-top: 2px solid #dee2e6;
+}
+
+.totalsRow td {
+    padding: 12px 8px;
+}

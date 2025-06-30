@@ -1,16 +1,81 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import tableStyles from '../styles/OrderTable.module.css';
 import modalStyles from '../styles/AddProductModal.module.css';
 
 import AddProductButton from './AddProductButton.jsx';
 
 function OrderTable() {
-    const [orderLines, setOrderLines] = useState([]);
+    const [orderLines, setOrderLines] = useState([{
+        id: Date.now(),
+        partNo: '',
+        description: '',
+        qty: 0,
+        weight: 0,
+        priceExVat: 0,
+        vat: 0,
+        totalIncVat: 0
+    }
+    ]);
     const [editingLine, setEditingLine] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     const [inputMode, setInputMode] = useState('manual');
     const [searchResults, setSearchResults] = useState([]);
+
+    const VAT_RATE = 0.20;
+
+    const calculateLineTotals = (lines) =>
+    {
+        return lines.map(line => {
+            const lineTotal = line.qty * line.priceExVat;
+            const vatAmount = lineTotal * VAT_RATE;
+            const totalIncVat = lineTotal + vatAmount;
+            return {
+                ...line,
+                vat : Number(vatAmount.toFixed(2)),
+                totalIncVat: Number(totalIncVat.toFixed(2))
+            }
+        })
+    }
+
+    const calculateOrderTotals = () => {
+        const totals = orderLines.reduce((acc, line) => {
+            const lineTotal = line.qty * line.priceExVat;
+            const vatAmount = lineTotal * VAT_RATE;
+            const totalIncVat = lineTotal + vatAmount;
+
+            return {
+                subtotal: acc.subtotal + lineTotal,
+                totalVat: acc.totalVat + vatAmount,
+                grandTotal: acc.grandTotal + totalIncVat
+            };
+        }, { subtotal: 0, totalVat: 0, grandTotal: 0 });
+
+        return {
+            subtotal: Number(totals.subtotal.toFixed(2)),
+            totalVat: Number(totals.totalVat.toFixed(2)),
+            grandTotal: Number(totals.grandTotal.toFixed(2))
+        };
+
+    };
+
+    // Recalculate totals whenever orderLines change
+    useEffect(() => {
+        const updatedLines = calculateLineTotals(orderLines);
+        // Only update if calculations have changed to avoid infinite loop
+        const hasChanges = updatedLines.some((line, index) =>
+            line.vat !== orderLines[index].vat ||
+            line.totalIncVat !== orderLines[index].totalIncVat
+        );
+
+        if (hasChanges) {
+            setOrderLines(updatedLines);
+        }
+    }, [orderLines.map(line => `${line.qty}-${line.priceExVat}`).join(',')]);
+
+
+
+
 
     const handleAddLine = () => {
         const newLine = {
@@ -51,6 +116,8 @@ function OrderTable() {
         }
     };
 
+    const orderTotals = calculateOrderTotals();
+
     return (
         <div className={tableStyles.orderTable}>
             <h2 className={tableStyles.subtitle}>Order</h2>
@@ -69,7 +136,10 @@ function OrderTable() {
                 </thead>
                 <tbody>
                 {orderLines.map((line, index) => (
-                    <tr key={line.id}>
+                    <tr
+                        key={line.id}
+                        className={editingLine?.id === line.id ? tableStyles.highlightedRow : ''}
+                        >
                         <td>{index + 1}</td>
                         <td
                             className={tableStyles.editableCell}
@@ -77,10 +147,50 @@ function OrderTable() {
                         >
                             {line.partNo || 'Click to edit'}
                         </td>
-                        <td>{line.description}</td>
-                        <td>{line.qty}</td>
-                        <td>{line.weight}</td>
-                        <td>{line.priceExVat}</td>
+                        <td>
+
+                            <input
+                            type="text"
+                            value={line.description}
+                            onChange={(e) => handleFieldChange(line.id, 'description', e.target.value)}
+                            className={tableStyles.editableInput}
+                            placeholder="Enter description"
+                            />
+                        </td>
+                        <td>
+
+                            <input
+                                type="number"
+                                value={line.qty}
+                                onChange={(e) => handleFieldChange(line.id, 'qty', Number(e.target.value))}
+                                className={tableStyles.editableInput}
+                                min="0"
+                            />
+
+                        </td>
+                        <td>
+
+                            <input
+                                type="number"
+                                value={line.weight}
+                                onChange={(e) => handleFieldChange(line.id, 'weight', Number(e.target.value))}
+                                className={tableStyles.editableInput}
+                                min="0"
+                                step="0.01"
+                            />
+
+                        </td>
+                        <td>
+
+                            <input
+                                type="number"
+                                value={line.priceExVat}
+                                onChange={(e) => handleFieldChange(line.id, 'priceExVat', Number(e.target.value))}
+                                className={tableStyles.editableInput}
+                                min="0"
+                                step="0.01"
+                            />
+                            </td>
                         <td>{line.vat}</td>
                         <td>{line.totalIncVat}</td>
                     </tr>
@@ -140,7 +250,7 @@ function OrderTable() {
                                     </>
                                 ) : (
                                     <>
-                                        <label htmlFor="searchInput">Search:</label>
+                                        <label htmlFor="searchInput">Search</label>
                                         <input
                                             id="searchInput"
                                             type="text"
