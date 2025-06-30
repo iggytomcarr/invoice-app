@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import tableStyles from '../styles/OrderTable.module.css';
 import modalStyles from '../styles/AddProductModal.module.css';
 
 import AddProductButton from './AddProductButton.jsx';
 
-function OrderTable() {
+function OrderTable({ onTotalsChange }) {
     const [orderLines, setOrderLines] = useState([{
         id: Date.now(),
         partNo: '',
@@ -38,8 +38,8 @@ function OrderTable() {
         })
     }
 
-    const calculateOrderTotals = () => {
-        const totals = orderLines.reduce((acc, line) => {
+    const calculateOrderTotals = (lines = orderLines) => {
+        const totals = lines.reduce((acc, line) => {
             const lineTotal = line.qty * line.priceExVat;
             const vatAmount = lineTotal * VAT_RATE;
             const totalIncVat = lineTotal + vatAmount;
@@ -70,6 +70,9 @@ function OrderTable() {
 
         if (hasChanges) {
             setOrderLines(updatedLines);
+            onTotalsChange && onTotalsChange(calculateOrderTotals(updatedLines));
+        } else {
+            onTotalsChange && onTotalsChange(calculateOrderTotals());
         }
     }, [orderLines.map(line => `${line.qty}-${line.priceExVat}`).join(',')]);
 
@@ -116,7 +119,6 @@ function OrderTable() {
         }
     };
 
-    const orderTotals = calculateOrderTotals();
 
     return (
         <div className={tableStyles.orderTable}>
