@@ -1,7 +1,7 @@
 import styles from '../styles/InvoiceTotals.module.css';
 import CreateOrderButton from "./CreateOrderButton.jsx";
 
-function InvoiceTotals() {
+function InvoiceTotals({ totals }) {
     return (
         <div className={styles.invoiceTotals}>
             <table className={styles.totalsTable}>
@@ -28,15 +28,15 @@ function InvoiceTotals() {
                 </tr>
                 <tr>
                     <td className={styles.label}>Order Total Ex VAT</td>
-                    <td className={styles.value}>0.00</td>
+                    <td className={styles.value}>{totals.subtotal}</td>
                 </tr>
                 <tr>
                     <td className={styles.label}>Total VAT</td>
-                    <td className={styles.value}>0.00</td>
+                    <td className={styles.value}>{totals.totalVat}</td>
                 </tr>
                 <tr>
                     <td className={styles.label}>Grand Total</td>
-                    <td className={styles.value}><strong>0.00</strong></td>
+                    <td className={styles.value}><strong>{totals.grandTotal}</strong></td>
                 </tr>
                 </tbody>
             </table>
