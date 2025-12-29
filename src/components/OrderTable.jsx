@@ -3,6 +3,7 @@ import tableStyles from '../styles/OrderTable.module.css';
 import modalStyles from '../styles/AddProductModal.module.css';
 
 import AddProductButton from './AddProductButton.jsx';
+import sampleParts from '../example_data/sample-part-numbers.json';
 
 function OrderTable() {
     const [orderLines, setOrderLines] = useState([{
@@ -112,6 +113,20 @@ function OrderTable() {
     const saveChanges = (partNo) => {
         if (editingLine) {
             handleFieldChange(editingLine.id, 'partNo', partNo);
+            closeModal();
+        }
+    };
+
+    const handleSearchResultClick = (result) => {
+        if (editingLine) {
+            setOrderLines(orderLines.map(line =>
+                line.id === editingLine.id ? {
+                    ...line,
+                    partNo: result.part_number,
+                    description: result.part_description,
+                    priceExVat: Number(result.retail_price)
+                } : line
+            ));
             closeModal();
         }
     };
@@ -255,15 +270,23 @@ function OrderTable() {
                                             id="searchInput"
                                             type="text"
                                             value={editingLine?.partNo || ''}
-                                            onChange={async (e) => {
+                                            onChange={(e) => {
                                                 const value = e.target.value;
                                                 setEditingLine({ ...editingLine, partNo: value });
 
-                                                const fakeResults = [
-                                                    { id: 1, partNo: 'ABC123', desc: 'Brake Pad' },
-                                                    { id: 2, partNo: 'XYZ789', desc: 'Oil Filter' }
-                                                ];
-                                                setSearchResults(value ? fakeResults : []);
+                                                if (!value) {
+                                                    setSearchResults([]);
+                                                    return;
+                                                }
+
+                                                const filtered = sampleParts
+                                                    .filter(p => 
+                                                        p.part_number.toLowerCase().includes(value.toLowerCase()) ||
+                                                        p.part_description.toLowerCase().includes(value.toLowerCase())
+                                                    )
+                                                    .slice(0, 10); // Limit results for performance
+                                                
+                                                setSearchResults(filtered);
                                             }}
                                             className={modalStyles.modalInput}
                                             autoFocus
@@ -285,17 +308,14 @@ function OrderTable() {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {searchResults.map(result => (
+                                        {searchResults.map((result, idx) => (
                                             <tr
-                                                key={result.id}
-                                                onClick={() => {
-                                                    setEditingLine({ ...editingLine, partNo: result.partNo });
-                                                    setSearchResults([]);
-                                                }}
+                                                key={idx}
+                                                onClick={() => handleSearchResultClick(result)}
                                                 className={modalStyles.resultRow}
                                             >
-                                                <td>{result.partNo}</td>
-                                                <td>{result.desc}</td>
+                                                <td>{result.part_number}</td>
+                                                <td>{result.part_description}</td>
                                             </tr>
                                         ))}
                                         </tbody>
